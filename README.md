@@ -1,4 +1,4 @@
-# Arraya-and-collections
+# Arrays-and-collections
 
 # 9 Further Arrays
 
