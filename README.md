@@ -57,5 +57,294 @@ public class Histogram {
 ```
 <img width="1283" alt="Screenshot 2025-04-12 at 10 14 35 PM" src="https://github.com/user-attachments/assets/2463f75e-767f-486a-a83c-64c24b3ba096" />
 
+2-
+
+```
+
+
+public class BankAccount {
+    private String accountHolder;
+    private int accountNumber;
+    private double balance;
+
+    private static int nextAccountNumber = 1001;
+
+    public BankAccount(String accountHolder) {
+        this.accountHolder = accountHolder;
+        this.accountNumber = nextAccountNumber++;
+        this.balance = 0.0;
+    }
+
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getAccountHolder() {
+        return accountHolder;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            System.out.println("Deposit amount must be positive.");
+        } else {
+            balance += amount;
+            System.out.println("Deposited: $" + amount + " into account #" + accountNumber);
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            System.out.println("Withdrawal amount must be positive.");
+        } else if (amount > balance) {
+            System.out.println("Insufficient funds in account #" + accountNumber);
+        } else {
+            balance -= amount;
+            System.out.println("Withdrawn: $" + amount + " from account #" + accountNumber);
+        }
+    }
+
+    public void addInterest() {
+        balance += balance * 0.03;
+    }
+
+    public void displayInfo() {
+        System.out.println("Account #" + accountNumber + " | Holder: " + accountHolder + " | Balance: $" + String.format("%.2f", balance));
+    }
+}
+
+public class LLBank {
+    private BankAccount[] accounts;
+    private int numAccounts;
+
+    public LLBank() {
+        accounts = new BankAccount[30];
+        numAccounts = 0;
+    }
+
+    public void createAccount(String name) {
+        if (numAccounts < accounts.length) {
+            accounts[numAccounts] = new BankAccount(name);
+            System.out.println("Account created for " + name + " with account number: " + accounts[numAccounts].getAccountNumber());
+            numAccounts++;
+        } else {
+            System.out.println("Bank has reached the maximum number of customers.");
+        }
+    }
+
+    public BankAccount findAccount(int accNumber) {
+        for (int i = 0; i < numAccounts; i++) {
+            if (accounts[i].getAccountNumber() == accNumber) {
+                return accounts[i];
+            }
+        }
+        return null;
+    }
+
+    public void depositToAccount(int accNumber, double amount) {
+        BankAccount acc = findAccount(accNumber);
+        if (acc != null) {
+            acc.deposit(amount);
+        } else {
+            System.out.println("Account number " + accNumber + " not found.");
+        }
+    }
+
+    public void withdrawFromAccount(int accNumber, double amount) {
+        BankAccount acc = findAccount(accNumber);
+        if (acc != null) {
+            acc.withdraw(amount);
+        } else {
+            System.out.println("Account number " + accNumber + " not found.");
+        }
+    }
+
+    public void applyInterestToAll() {
+        for (int i = 0; i < numAccounts; i++) {
+            accounts[i].addInterest();
+        }
+        System.out.println("Interest applied to all accounts.");
+    }
+
+    public void displayAllAccounts() {
+        for (int i = 0; i < numAccounts; i++) {
+            accounts[i].displayInfo();
+        }
+    }
+}
+
+public class LLBankDriver {
+    public static void main(String[] args) {
+        LLBank bank = new LLBank();
+
+        // Create accounts
+        bank.createAccount("Alice");
+        bank.createAccount("Bob");
+        bank.createAccount("Charlie");
+
+        // Make deposits
+        bank.depositToAccount(1001, 500);
+        bank.depositToAccount(1002, 300);
+
+        // Make withdrawals
+        bank.withdrawFromAccount(1001, 100);
+        bank.withdrawFromAccount(1003, 500); // Invalid withdrawal
+
+        // Add interest
+        bank.applyInterestToAll();
+
+        // Display all accounts
+        bank.displayAllAccounts();
+    }
+}
+
+
+```
+
+<img width="1303" alt="Screenshot 2025-04-12 at 10 31 00 PM" src="https://github.com/user-attachments/assets/ee5fad05-5dc5-47f7-adf9-4adb3a12d513" />
+
+
+
+3-
+
+```
+public class Person {
+    private String firstName;
+    private String lastName;
+    private String postalCode;
+
+    public Person(String firstName, String lastName, String postalCode) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.postalCode = postalCode;
+    }
+
+    public void display() {
+        System.out.printf("%-15s %-15s %-10s%n", firstName, lastName, postalCode);
+    }
+}
+
+import java.util.Scanner;
+
+public class PostCodeApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Person[] people = new Person[25];
+        int count = 0;
+
+        System.out.println("Enter up to 25 entries (FirstName<TAB>LastName<TAB>PostalCode).");
+        System.out.println("Type 'END' to finish input early.");
+
+        while (count < 25) {
+            String line = scanner.nextLine();
+            if (line.equalsIgnoreCase("END")) {
+                break;
+            }
+
+            String[] parts = line.split("\t");
+            if (parts.length != 3) {
+                System.out.println("Invalid input. Please enter exactly three tab-separated values.");
+                continue;
+            }
+
+            people[count] = new Person(parts[0], parts[1], parts[2]);
+            count++;
+        }
+
+        System.out.println("\n%- Displaying All Entries -%");
+        System.out.printf("%-15s %-15s %-10s%n", "First Name", "Last Name", "Postal Code");
+        System.out.println("---------------------------------------------------");
+
+        for (int i = 0; i < count; i++) {
+            people[i].display();
+        }
+
+        scanner.close();
+    }
+}
+
+```
+<img width="1294" alt="Screenshot 2025-04-12 at 10 34 39 PM" src="https://github.com/user-attachments/assets/5fd2e399-20d5-429c-95a0-f36472ced4b8" />
+
+
+4-
+
+```
+
+public class Question {
+    private String questionText;
+    private String correctAnswer;
+
+    public Question(String questionText, String correctAnswer) {
+        this.questionText = questionText;
+        this.correctAnswer = correctAnswer.trim().toLowerCase(); // case-insensitive
+    }
+
+    public boolean askQuestion() {
+        System.out.println(questionText);
+        System.out.print("Your answer: ");
+
+        String userAnswer = new java.util.Scanner(System.in).nextLine().trim().toLowerCase();
+        return userAnswer.equals(correctAnswer);
+    }
+}
+
+public class Quiz {
+    private Question[] questions;
+    private int questionCount;
+
+    public Quiz() {
+        questions = new Question[25];
+        questionCount = 0;
+    }
+
+    public void addQuestion(Question q) {
+        if (questionCount < 25) {
+            questions[questionCount++] = q;
+        } else {
+            System.out.println("Quiz is full! Cannot add more questions.");
+        }
+    }
+
+    public void giveQuiz() {
+        int score = 0;
+
+        System.out.println("\n--- Starting the Quiz ---\n");
+
+        for (int i = 0; i < questionCount; i++) {
+            System.out.println("Question " + (i + 1) + ":");
+            if (questions[i].askQuestion()) {
+                System.out.println("Correct!\n");
+                score++;
+            } else {
+                System.out.println("Incorrect.\n");
+            }
+        }
+
+        System.out.println("--- Quiz Over ---");
+        System.out.println("Your Score: " + score + " out of " + questionCount);
+    }
+}
+
+public class QuizTime {
+    public static void main(String[] args) {
+        Quiz quiz = new Quiz();
+
+        // Add some questions
+        quiz.addQuestion(new Question("What is the capital of France?", "Paris"));
+        quiz.addQuestion(new Question("2 + 2 equals?", "4"));
+        quiz.addQuestion(new Question("Java is a ___ language (fill in the blank)", "programming"));
+
+        // Start the quiz
+        quiz.giveQuiz();
+    }
+}
+
+```
+<img width="1299" alt="Screenshot 2025-04-12 at 10 41 29 PM" src="https://github.com/user-attachments/assets/8481a226-0847-4c91-8449-b92f423ecc52" />
+
 
 
